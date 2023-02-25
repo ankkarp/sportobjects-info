@@ -1,9 +1,10 @@
 import os
 
 import uvicorn
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 from fastapi import FastAPI
+import pandas as pd
 
 load_dotenv()
 
@@ -16,13 +17,14 @@ engine = create_engine("postgresql://{user}:{psw}@{host}:{port}/{db}".format(
     port=os.environ.get('DB_PORT'),
     db=os.environ.get('DB_DATABASE'))
 )
+con = engine.connect()
 
 
-@app.get("/id/{id}")
-async def read_item(id: int):
-
-    print("item_id", item_id)
-    return {"item_id": item_id}
+@app.get("/object/{id}")
+async def read_object(id: int):
+    object_df = pd.read_sql(
+        text(f'SELECT * FROM objects WHERE id = {id}'), con).iloc[0]
+    return object_df.to_dict()
 
 
 if __name__ == "__main__":
