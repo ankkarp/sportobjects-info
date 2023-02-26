@@ -19,8 +19,48 @@ a {
   html {
     color-scheme: dark;
   }
+
   body {
-    color: white;
-    background: black;
+    color: #CACCE5;
+    background: #302D2D;
   }
+}
+
+p{
+  padding: 1px 0;
+  margin: 0;
+  width: 75%;
+}
+
+.header{
+  margin: 0 30vw 0 10vw;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+nav{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-row-gap: 0;
+  grid-template-rows: 1fr;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  align-content: center;
+}
+
+nav :hover{
+  border-bottom: 3px orangered solid;
+  transition: all .1s ease-in-out;
+  color: orange;
+  font-weight: 400;
+
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: lighter;
+  padding: .5em 2em;
+  border-bottom: orange 3px solid;
 }
