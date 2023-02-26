@@ -1,5 +1,6 @@
 import os
 import math
+import logging
 
 from sqlalchemy import create_engine, exc, text
 from dotenv import load_dotenv
@@ -11,17 +12,17 @@ load_dotenv()
 
 
 engine = create_engine("postgresql://{user}:{psw}@{host}:{port}/{db}".format(
-    user=os.environ.get('DB_USERNAME'),
-    psw=os.environ.get('DB_PASSWORD'),
+    user=os.environ.get('PGUSER'),
+    psw=os.environ.get('POSTGRES_PASSWORD'),
     host=os.environ.get('DB_HOST'),
     port=os.environ.get('DB_PORT'),
-    db=os.environ.get('DB_DATABASE'))
+    db=os.environ.get('POSTGRES_DB'))
 )
 
 
 def init_db(df, table_name, pk):
-    sql_code = f"""CREATE TABLE IF NOT EXISTS "{table_name}" (
-                   "{pk}" integer,\n"""
+    sql_code = f"""CREATE TABLE "{table_name}" (
+                "{pk}" integer,\n"""
     for col in tqdm(df.columns):
         col_values = df[col].dropna()
         if col != pk:
@@ -50,28 +51,36 @@ def build_db(csv_data, table_name, pk):
     df = pd.read_csv(csv_data)
     df.columns = pd.Series(df.columns).str.replace(r':$', '', regex=True)
     sql_create = init_db(df=df, table_name=table_name, pk=pk)
-    with engine.connect() as con:
-        con.execute(text(sql_create))
-        con.commit()
-        for i in tqdm(df.index):
-            cols = [col for col in df.columns if str(df.iloc[i][col]) != 'nan']
-            try:
-                con.execute(text("INSERT INTO {table_name} ({columns}) VALUES({values}); ".format(
-                    table_name=table_name,
-                    columns=', '.join([f'"{col}"' for col in cols]),
-                    values=', '.join(["'{}'".format(v.replace("'", ''))
-                                      if type(v) == str else str(v)
-                                      for v in df.iloc[i][cols]]))))
-            except Exception as e:
-                print(f'{e}: {cols}')
-                break
-        con.commit()
+    if sql_create:
+        with engine.connect() as con:
+            con.execute(text(sql_create))
+            con.commit()
+            for i in tqdm(df.index):
+                cols = [col for col in df.columns if str(
+                    df.iloc[i][col]) != 'nan']
+                try:
+                    con.execute(text("INSERT INTO {table_name} ({columns}) VALUES({values}); ".format(
+                        table_name=table_name,
+                        columns=', '.join([f'"{col}"' for col in cols]),
+                        values=', '.join(["'{}'".format(v.replace("'", ''))
+                                          if type(v) == str else str(v)
+                                          for v in df.iloc[i][cols]]))))
+                except Exception as e:
+                    print(f'{e}: {cols}')
+                    break
+            con.commit()
 
 
 if __name__ == '__main__':
-    build_db(csv_data='server\data\data.csv',
-             table_name='objects',
-             pk='id')
+    with engine.connect() as con:
+        res = pd.read_sql(
+            text(f"SELECT datname FROM pg_catalog.pg_database WHERE lower(datname) = lower('sportobjects');"), con)
+        if len(res.index):
+            build_db(csv_data='data/data.csv',
+                     table_name='sportobjects',
+                     pk='id')
+        else:
+            logging.warning('table sportobjects already exists')
     # with engine.connect() as con:
     #     res = pd.read_sql(text('SELECT * FROM sportobjects LIMIT 2;'), con)
     #     print(res)
