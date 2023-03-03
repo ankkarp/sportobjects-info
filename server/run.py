@@ -38,9 +38,10 @@ async def read_object(id: int):
     return object_df.to_dict()
 
 
-@app.get("/funding")
-async def read_object():
-    df = pd.read_sql(text(f'''SELECT funding_from_the_federal_budget,
+@app.get("/stats/{stat}")
+async def get_statistic(stat):
+    if stat == 'funding':
+        df = pd.read_sql(text(f'''SELECT funding_from_the_federal_budget,
                           funding_from_the_federal_budget_of_which_mastered
                           funding_from_the_budget_of_the_subject_of_the_federation,
                           funding_from_the_budget_of_the_subject_of_the_federation_of_whi,
@@ -49,14 +50,11 @@ async def read_object():
                           funding_from_extrabudgetary_sources,
                           funding_from_extrabudgetary_sources_of_which_mastered
                           FROM sportobjects'''), con)
-    return {col: df[col].sum(skipna=True) for col in df.columns}
-
-
-@app.get("/sporttype")
-async def read_object():
-    df = pd.read_sql(
-        text(f'''SELECT type_of_sports_complex FROM sportobjects'''), con)
-    return df['type_of_sports_complex'].value_counts().to_dict()
+        return {col: df[col].sum(skipna=True) for col in df.columns}
+    else:
+        df = pd.read_sql(
+            text(f'''SELECT {stat} FROM sportobjects'''), con, )
+        return df[stat].value_counts(dropna=False).to_dict()
 
 
 # @app.get()s

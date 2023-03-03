@@ -1,8 +1,12 @@
 import Stats from "../../components/Stats/Stats";
 import Map from "../../components/Map/Map";
+import Head from "next/head";
 import { useState } from "react";
+import Header from "../../components/Header/Header";
+import { NAV } from "../../constants";
+import Link from "next/link";
 
-const MainLayout = ({ data }) => {
+const MainLayout = ({ title, data, renameLabels }) => {
   const [mode, setMode] = useState("stats");
 
   return (
@@ -13,10 +17,13 @@ const MainLayout = ({ data }) => {
       </Head>
       <Header />
       <nav>
-        <button onClick={() => setMode("stats")}>Статистика</button>
-        <button onClick={() => setMode("map")}>Карта</button>
+        {Object.entries(NAV).map(([k, v]) => (
+          <Link href={`/overview/${encodeURIComponent(k)}`} key={k}>
+            {v}
+          </Link>
+        ))}
       </nav>
-      <div>{mode == "stats" ? <Stats data={data} /> : <Map data={data} />}</div>
+      <Stats title={title} data={data} renameLabels={renameLabels} />
     </div>
   );
 };

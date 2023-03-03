@@ -1,6 +1,7 @@
 import os
 import math
 import logging
+import json
 
 from sqlalchemy import create_engine, exc, text
 from dotenv import load_dotenv
@@ -47,40 +48,60 @@ def init_db(df, table_name, pk):
     return sql_code
 
 
+# def build_mapping(mapping_json='data\mapping.json', table_name='column_mapping'):
+#     with engine.connect() as con:
+#         res = pd.read_sql(
+#             text(f"""SELECT datname FROM pg_catalog.pg_database
+#                     WHERE lower(datname) = lower('{table_name}');"""), con)
+#         if len(res.index) == 0:
+#             res = pd.read_sql(
+#                 text(f"""SELECT datname FROM pg_catalog.pg_database
+#                     WHERE lower(datname) = lower('{column_name}');"""), con)
+#             if len(res.index):
+#                 logging.warning(f'table {table_name} already exists!')
+#             else:
+#                 con.execute(text(f"""CREATE TABLE {table_name} (
+#                     column_name varchar(63) PRIMARY KEY;
+#                     orig_name varchar(255) NOT NULL;
+#                     );"""))
+#                 with open(mapping_json, 'r') as f:
+#                     mapping_dict = json.load(f)
+#                 for column_name, orig_name in tqdm(mapping_dict.items()):
+#                     con.execute(
+#                         text(f"INSERT INTO {table_name} VALUES({column_name}, {orig_name});"))
+#                 con.commit()
+#         else:
+#             logging.warning(f'table {table_name} already exists!')
+
+
 def build_db(csv_data, table_name, pk):
-    df = pd.read_csv(csv_data)
-    df.columns = pd.Series(df.columns).str.replace(r':$', '', regex=True)
-    sql_create = init_db(df=df, table_name=table_name, pk=pk)
-    if sql_create:
-        with engine.connect() as con:
+    with engine.connect() as con:
+        res = con.execute(
+            text(f"""SELECT EXISTS (SELECT datname FROM pg_catalog.pg_database 
+                    WHERE lower(datname) = lower('{table_name}'));"""))
+        if not res.fetchone():
+            df = pd.read_csv(csv_data)
+            df.columns = pd.Series(df.columns).str.replace(
+                r':$', '', regex=True)
+            sql_create = init_db(df=df, table_name=table_name, pk=pk)
             con.execute(text(sql_create))
             con.commit()
             for i in tqdm(df.index):
                 cols = [col for col in df.columns if str(
                     df.iloc[i][col]) != 'nan']
-                try:
-                    con.execute(text("INSERT INTO {table_name} ({columns}) VALUES({values}); ".format(
-                        table_name=table_name,
-                        columns=', '.join([f'"{col}"' for col in cols]),
-                        values=', '.join(["'{}'".format(v.replace("'", ''))
-                                          if type(v) == str else str(v)
-                                          for v in df.iloc[i][cols]]))))
-                except Exception as e:
-                    print(f'{e}: {cols}')
-                    break
-            con.commit()
+                con.execute(text("INSERT INTO {table_name} ({columns}) VALUES({values}); ".format(
+                    table_name=table_name,
+                    columns=', '.join([f'"{col}"' for col in cols]),
+                    values=', '.join(["'{}'".format(v.replace("'", ''))
+                                      if type(v) == str else str(v)
+                                      for v in df.iloc[i][cols]]))))
+
+                con.commit()
+        else:
+            logging.warning(f'table {table_name} already exists!')
 
 
 if __name__ == '__main__':
-    with engine.connect() as con:
-        res = pd.read_sql(
-            text(f"SELECT datname FROM pg_catalog.pg_database WHERE lower(datname) = lower('sportobjects');"), con)
-        if len(res.index):
-            build_db(csv_data='data/data.csv',
-                     table_name='sportobjects',
-                     pk='id')
-        else:
-            logging.warning('table sportobjects already exists')
-    # with engine.connect() as con:
-    #     res = pd.read_sql(text('SELECT * FROM sportobjects LIMIT 2;'), con)
-    #     print(res)
+    build_db(csv_data='data/data.csv',
+             table_name='sportobjects',
+             pk='id')

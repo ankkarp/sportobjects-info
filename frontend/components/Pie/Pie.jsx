@@ -1,28 +1,20 @@
 import ReactEcharts from "echarts-for-react";
 
-const Pie = ({ data }) => {
-  const option = {
+const Pie = ({ title, data }) => {
+  const pieOption = {
     backgroundColor: "#302D2D",
-    title: {
-      text: "Customized Pie",
-      left: "center",
-      top: 20,
-      textStyle: {
-        color: "#ccc",
-      },
-    },
-    title: {
-      subtext: "Финансирование",
-      left: "center",
-    },
+    radius: [20, 180],
     tooltip: {
       trigger: "item",
       formatter: "{b}: {d}% ({c})",
     },
     series: [
       {
+        minAngle: 3,
         stillShowZeroSum: false,
         type: "pie",
+        height: "100%",
+        width: "100%",
         data: data,
         label: {
           color: "rgba(255, 255, 255, 0.3)",
@@ -52,78 +44,50 @@ const Pie = ({ data }) => {
             shadowColor: "rgba(0, 0, 0, 0.5)",
           },
         },
-        radius: "50%",
+        // radius: "50%",
       },
     ],
+    // legend: {
+    //   orient: "vertical",
+    //   left: 20,
+    //   inactiveColor: "#ccc",
+    //   textStyle: {
+    //     color: "rgb(255, 255, 255)",
+    //   },
+    //   : data.map((it) => it.name),
+    //   textStyle: {},
+    // },
+  };
 
-    legend: {
-      icon: "circle",
-      x: "center",
-      y: "50px",
-      data: Object.keys(data),
-      textStyle: {
-        color: "#fff",
+  const histOption = {
+    xAxis: {
+      type: "category",
+      data: data.map((it) => it.name),
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        data: data.map((it) => it.value),
+        type: "bar",
+        // height: 200,
+        showBackground: true,
+        backgroundStyle: {
+          color: "rgba(180, 180, 180, 0.2)",
+        },
       },
+    ],
+    legend: {
+      orient: "vertical",
+      itemStyle: {
+        color: "rgba(255, 255, 255, 0.8)",
+      },
+      data: data.map((it) => it.name),
     },
   };
 
-  //   const option = {
-  // title: {
-  //   subtext: "Финансирование",
-  //   left: "center",
-  // },
-  // legend: {
-  //   icon: "circle",
-  //   x: "center",
-  //   y: "50px",
-  //   data: Object.entries(data).map(([k, v]) => ({ k: k, v: v })),
-  //   textStyle: {
-  //     color: "#fff",
-  //   },
-  // },
-  // data: {
-  //   legendText: "{a}",
-  //   toolTipContent: "{k}: <strong>{v}%</strong>",
-  //   indexLabel: "{c}%",
-  //   indexLabelPlacement: "inside",
-  // },
-  // tooltip: {
-  //   trigger: "item",
-  //   formatter: "{d}%",
-  // },
-  // series: [
-  //   {
-  //     name: "Access From",
-  //     type: "pie",
-  //     radius: "50%",
-  //     // data: Object.entries(data).map((k, v) => ({ value: v, name: k })),
-  //     data: Object.entries(data).map((k, v) => ({ value: v, name: k })),
-  //     emphasis: {
-  //       itemStyle: {
-  //         shadowBlur: 10,
-  //         shadowOffsetX: 0,
-  //         shadowColor: "rgba(0, 0, 0, 0.5)",
-  //       },
-  //     },
-  //     label: {
-  //       normal: {
-  //         show: true,
-  //         formatter: "{c}", // {c} data: [{value:},]
-  //       },
-  //       emphasis: {
-  //         show: true,
-  //       },
-  //     },
-  //     legend: {
-  //       orient: "vertical",
-  //       left: 10,
-  //       data: ["Mon", "Tues", "Wed", "Thurs", "Fri"],
-  //     },
-  // data: Object.entries(data).map(([k, v]) => ({ k: k, v: v })),
-  //   },
-  // ],
-  //   };
-  return <ReactEcharts option={option} />;
+  return <ReactEcharts option={pieOption} />;
 };
 
 export default Pie;

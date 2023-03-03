@@ -52,16 +52,17 @@ p{
   position: sticky
 }
 
-nav{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-row-gap: 0;
-  grid-template-rows: 1fr;
-  font-weight: 300;
-  margin: 0;
-  padding: 0;
-  align-content: center;
+nav {
+  /* position: absolute; */
+  width: 200px;
+  /* left: 0; */
+  /* bottom: 0; */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 20px
 }
+
 
 nav :hover{
   border-bottom: 2px rgb(255, 119, 0) solid;

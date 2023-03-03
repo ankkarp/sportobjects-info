@@ -41,22 +41,29 @@ export default function Home({ data }) {
   );
 }
 
-export async function getServerSideProps() {
-  // const res = await fetch(`http://localhost:8000/data`);
-  const res = await fetch(`http://localhost:8000/funding`);
-  const data = { funding: [], sporttype: [] };
-  data.funding = await res.json();
-  // console.log(data);
-  // console.log(
-  //   Object.entries(data).map(([k, v]) => {
-  //     return { value: v, name: k };
-  //   })
-  // );
+// export async function getServerSideProps() {
+//   // const res = await fetch(`http://localhost:8000/data`);
+//   const res = await fetch(`http://localhost:8000/funding`);
+//   const data = { funding: [], sporttype: [] };
+//   data.funding = await res.json();
+//   // console.log(data);
+//   // console.log(
+//   //   Object.entries(data).map(([k, v]) => {
+//   //     return { value: v, name: k };
+//   //   })
+//   // );
 
-  data.sporttype = await (
-    await fetch(`http://localhost:8000/sporttype`)
-  ).json();
-  console.log(data);
+//   data.sporttype = await (
+//     await fetch(`http://localhost:8000/sporttype`)
+//   ).json();
+//   console.log(data);
 
-  return { props: { data } };
-}
+//   return {
+//     redirect: {
+//       destination: "/overview/sports",
+//       permanent: false,
+//     },
+//   };
+
+//   return { props: { data } };
+// }

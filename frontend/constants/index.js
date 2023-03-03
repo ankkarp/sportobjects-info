@@ -1,4 +1,15 @@
-export const COLUMNS = {
+export const NAV = {
+  active: "Активный",
+  funding: "Финансирование",
+  significance: "Значимость",
+  ftp_federal_target_program: "ФЦП (федеральная целевая программа)",
+  actions_with_an_object: "Действия с объектом",
+};
+
+export const NAMES = {
+  Y: "Да",
+  N: "Нет",
+  funding: "Финансирование",
   id: "id",
   objectname: "Название",
   title_in_english: "Название (in english)",

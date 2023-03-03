@@ -3,10 +3,10 @@ const Header = () => {
     <div className="header-container">
       <div className="header">
         <h1>СпортИнфо</h1>
-        <nav>
+        {/* <nav>
           <button onClick={() => setMode("stats")}>Статистика</button>
           <button onClick={() => setMode("map")}>Карта</button>
-        </nav>
+        </nav> */}
       </div>
       <div className="search"></div>
     </div>
