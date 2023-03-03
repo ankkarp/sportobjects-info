@@ -26,6 +26,19 @@ a {
   }
 }
 
+button{
+  border: 0px;
+  background-color: #302D2D;
+  padding: .5em;
+  font-size: 16px;
+  font-weight: 100;
+  color:#CACCE5
+}
+
+button:hover{
+  border: 0
+}
+
 p{
   padding: 1px 0;
   margin: 0;
@@ -36,7 +49,7 @@ p{
   margin: 0 30vw 0 10vw;
   display: flex;
   flex-direction: column;
-  
+  position: sticky
 }
 
 nav{
@@ -51,11 +64,21 @@ nav{
 }
 
 nav :hover{
-  border-bottom: 3px orangered solid;
+  border-bottom: 2px rgb(255, 119, 0) solid;
   transition: all .1s ease-in-out;
-  color: orange;
+  color: rgb(255, 119, 0);
   font-weight: 400;
 
+}
+
+.main-block{
+  padding: 2em;
+  /* width: 80vw */
+}
+
+nav .active{
+  border-bottom: 3px orangered solid;
+  color: orangered
 }
 
 h1 {
@@ -63,4 +86,14 @@ h1 {
   font-weight: lighter;
   padding: .5em 2em;
   border-bottom: orange 3px solid;
+}
+
+.stats-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.stats-row{
+  display: flex;
+  flex-direction: column;
 }
