@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useState } from "react";
 import Header from "../components/Header/Header";
 import Stats from "../components/Stats/Stats";
-import Map from "../components/Map/Map";
+import Map from "../components/Locations/Locations";
 import MainLayout from "../layouts/MainLayout/MainLayout";
 
 export default function Home({ data }) {
@@ -10,7 +10,7 @@ export default function Home({ data }) {
 
   return (
     <div className="main-container">
-      <Head>
+      {/* <Head>
         <title>СпортИнфо</title>
         <meta name="description" content="Статистика спортивных объектов" />
       </Head>
@@ -36,7 +36,7 @@ export default function Home({ data }) {
           {mode == "stats" ? <Stats data={data} /> : <Map data={data} />}
         </div>
         <div className="search"></div>
-      </div>
+      </div> */}
     </div>
   );
 }

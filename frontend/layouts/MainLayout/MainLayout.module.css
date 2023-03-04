@@ -1,0 +1,9 @@
+.statistics{
+  display: grid;
+  grid-template-columns: 300px 1fr 200px;
+}
+
+.loading{
+  align-self: center;
+  justify-self: center
+}

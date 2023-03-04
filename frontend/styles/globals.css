@@ -39,6 +39,15 @@ button:hover{
   border: 0
 }
 
+
+.chart{
+  width: 100%;
+  height: 100%;
+  /* height: 100vh; */
+  /* margin-right: 200px; */
+  /* margin-top: 50px */
+}
+
 p{
   padding: 1px 0;
   margin: 0;
@@ -53,33 +62,36 @@ p{
 }
 
 nav {
-  /* position: absolute; */
   width: 200px;
-  /* left: 0; */
-  /* bottom: 0; */
+  height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  margin: 20px
+  margin: 20px;
+}
+
+nav a{
+  padding: .8em .5em .2em .5em 
+}
+
+nav :hover{
+  /* text-decoration: underline rgb(255, 119, 0) solid; */
+  /* background-color: rgba(255, 119, 0, 0.5); */
+  /* border-bottom: 2px rgb(255, 119, 0) solid; */
+  transition: color 1s, background-color .5s;
+  color: white;
+  font-weight: 400;
+
 }
 
 
-nav :hover{
-  border-bottom: 2px rgb(255, 119, 0) solid;
-  transition: all .1s ease-in-out;
-  color: rgb(255, 119, 0);
-  font-weight: 400;
-
+.main-container{
+  height: 100vh;
+  margin-right: 200px
 }
 
 .main-block{
   padding: 2em;
   /* width: 80vw */
-}
-
-nav .active{
-  border-bottom: 3px orangered solid;
-  color: orangered
 }
 
 h1 {

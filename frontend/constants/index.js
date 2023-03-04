@@ -4,6 +4,10 @@ export const NAV = {
   significance: "Значимость",
   ftp_federal_target_program: "ФЦП (федеральная целевая программа)",
   actions_with_an_object: "Действия с объектом",
+  registered: "Внесён в реестр?",
+  type_of_sports_complex: "Тип спортивного комплекса",
+  what_competitions_are_held: "Какие соревнования проводятся?",
+  // map: "На карте",
 };
 
 export const NAMES = {

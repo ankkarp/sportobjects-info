@@ -1,0 +1,15 @@
+.map{
+    height: 100%;
+    width: 100%;
+    background-color: rgb(201, 218, 220);
+    padding: 10px;
+    border-radius: 15px;
+    opacity: 0.1;
+    margin: 1em;
+
+}
+
+.map.active{
+    opacity: 1;
+    transition: opacity .5s;
+}

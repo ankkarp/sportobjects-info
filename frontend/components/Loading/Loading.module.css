@@ -1,0 +1,10 @@
+.loading{
+    justify-self: center;
+    align-self: center;
+    opacity: 0;
+}
+
+.loading.active{
+    opacity: 1;
+    transition: opacity 1s;
+}

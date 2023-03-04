@@ -1,0 +1,10 @@
+.active{
+    transition: color .5s;
+    border-bottom: 3px orangered solid;
+    color: orangered;
+    transition: all 1s;
+ }
+
+.active:hover{
+    color: white;
+}

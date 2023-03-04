@@ -1,27 +1,55 @@
 import ReactEcharts from "echarts-for-react";
 
-const Pie = ({ title, data }) => {
+const Pie = ({ data }) => {
   const pieOption = {
+    // legend: {
+    //   orient: "vertical",
+    //   top: "5%",
+    //   left: "0",
+    //   textStyle: "white",
+    //   inactiveColor: "white",
+    //   data: data.map((it) => it.name),
+    //   label: {
+    //     color: "rgba(255, 255, 255, 0.3)",
+    //   },
+    //   labelLine: {
+    //     lineStyle: {
+    //       color: "rgba(255, 255, 0, 0.3)",
+    //     },
+    //     smooth: 0.2,
+    //     length: 10,
+    //     length2: 20,
+    //   },
+    //   inactiveColor: "#ccc",
+    //   textStyle: {
+    //     color: "rgb(255, 255, 255)",
+    //     width: 100,
+    //     // maxWidth:100,
+    //     overflow: "truncate",
+    //   },
+    // },
+    orient: "vertical",
     backgroundColor: "#302D2D",
-    radius: [20, 180],
+    // radius: [20, 180],
     tooltip: {
       trigger: "item",
-      formatter: "{b}: {d}% ({c})",
+      formatter: "{b}: {d}%",
     },
+    // maintainAspectRatio: true,
     series: [
       {
         minAngle: 3,
         stillShowZeroSum: false,
         type: "pie",
-        height: "100%",
-        width: "100%",
+        // height: "100%",
+        // width: "100%",
         data: data,
         label: {
           color: "rgba(255, 255, 255, 0.3)",
         },
         labelLine: {
           lineStyle: {
-            color: "rgba(255, 255, 255, 0.3)",
+            color: "rgba(255, 255, 0, 0.3)",
           },
           smooth: 0.2,
           length: 10,
@@ -87,7 +115,17 @@ const Pie = ({ title, data }) => {
     },
   };
 
-  return <ReactEcharts option={pieOption} />;
+  return (
+    <div className="chart">
+      <ReactEcharts
+        option={pieOption}
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
+      />
+    </div>
+  );
 };
 
 export default Pie;
