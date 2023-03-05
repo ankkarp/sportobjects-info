@@ -7,9 +7,13 @@
     margin: 2em;
 }
 
-
-
 .map.active{
     opacity: 1;
     transition: opacity .5s;
+}
+
+@media screen and (orientation:portrait) {
+    .map{
+        width: 100%;
+    }
 }

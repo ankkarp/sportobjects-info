@@ -13,7 +13,6 @@ const Locations = ({ locs }) => {
     <div className={`${styles.map} ${active ? styles.active : ""}`}>
       <Map
         provider={osm}
-        // height={"100%"}
         defaultCenter={[locs[0].y, locs[0].x]}
         defaultZoom={11}
       >
