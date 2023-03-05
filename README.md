@@ -18,6 +18,11 @@
 
 Эта команда забилдит сервер и инициализирует базу данных, а также развернет фронтенд на localhost:3000.
 
+Образы бд и сервера есть на dockerhub:
+
+https://hub.docker.com/repository/docker/ankkarp/sportobjects-db
+https://hub.docker.com/repository/docker/ankkarp/sportobjects-server
+
 ### Без docker-compose (требует python, nodejs и postgresql)
 
 В первую очередь необходимо создать .env в корневой папке:
@@ -38,7 +43,9 @@
 
 Заменить в файлах map.js и overview/[stat].js wev на localhost в api-запросах.
 
+Затем выполнить в терминале комманды:
+
     npm install
     npm run dev
 
-Затем можно будет открыть веб-приложение на localhost:3000
+Затем можно будет открыть веб-приложение на localhost:3000.
