@@ -41,7 +41,7 @@ https://hub.docker.com/repository/docker/ankkarp/sportobjects-server
 
 Перейти в папку frontend:
 
-Заменить в файлах map.js и overview/[stat].js wev на localhost в api-запросах.
+Заменить в файлах map.js и overview/[stat].js web на localhost в api-запросах.
 
 Затем выполнить в терминале комманды:
 
