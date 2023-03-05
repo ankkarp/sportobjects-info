@@ -10,7 +10,7 @@ const MapPage = ({ locs }) => {
 };
 
 export async function getServerSideProps() {
-  const res = await fetch(`http://localhost:8000/locs`);
+  const res = await fetch(`http://web:8000/locs`);
   const locs = await res.json();
   console.log(locs.length);
 

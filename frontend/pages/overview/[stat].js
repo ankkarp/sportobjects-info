@@ -15,7 +15,7 @@ const StatisticPage = ({ data, title }) => {
 };
 
 export async function getServerSideProps(context) {
-  const res = await fetch(`http://localhost:8000/stats/${context.params.stat}`);
+  const res = await fetch(`http://web:8000/stats/${context.params.stat}`);
   if (res.status == 404) {
     return {
       redirect: {
