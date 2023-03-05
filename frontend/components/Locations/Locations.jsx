@@ -1,4 +1,4 @@
-import { Map, Marker } from "pigeon-maps";
+import { Map, Marker, ZoomControl } from "pigeon-maps";
 import { osm } from "pigeon-maps/providers";
 import { useEffect, useState } from "react";
 import styles from "./Locations.module.css";
@@ -17,13 +17,9 @@ const Locations = ({ locs }) => {
         defaultCenter={[locs[0].y, locs[0].x]}
         defaultZoom={11}
       >
-        {locs.map((loc) => (
-          <Marker
-            width={50}
-            anchor={[loc.y, loc.x]}
-            // color="red"
-            // onClick={() => setHue(hue + 20)}
-          />
+        <ZoomControl />
+        {locs.map((loc, i) => (
+          <Marker width={20} anchor={[loc.y, loc.x]} key={i} color="#D14D0C" />
         ))}
       </Map>
     </div>

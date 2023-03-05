@@ -11,8 +11,8 @@ export const NAV = {
 };
 
 export const NAMES = {
-  Y: "Да",
-  N: "Нет",
+  Y: "Объект активен",
+  N: "Объект неактивен",
   funding: "Финансирование",
   id: "id",
   objectname: "Название",

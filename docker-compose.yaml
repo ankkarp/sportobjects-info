@@ -1,4 +1,11 @@
+version: "3.8"
 services:
+  client:
+    build: 'frontend/.'
+    ports: 
+    - '3000:3000'
+    command: ["npm", "run", "dev"]
+
   web:
     build: server/.
     ports:
@@ -9,7 +16,7 @@ services:
       db:
         condition: service_healthy
 
-    command: bash -c "python build_db.py && uvicorn run:app --proxy-headers --host 0.0.0.0 --port 8000"
+    command: bash -c "python build_db.py && uvicorn run:app --proxy-headers --host 0.0.0.0 --port 8000 --reload"
 
   db:
     image: postgres

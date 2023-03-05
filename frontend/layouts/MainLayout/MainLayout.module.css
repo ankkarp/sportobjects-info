@@ -1,9 +1,19 @@
 .statistics{
   display: grid;
-  grid-template-columns: 300px 1fr 200px;
+  grid-template-columns: 300px 1fr;
 }
 
 .loading{
   align-self: center;
   justify-self: center
+}
+
+@media screen and (orientation:portrait) {
+  .statistics{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10%;
+  }
 }

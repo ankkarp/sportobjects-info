@@ -1,22 +1,15 @@
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import { NAMES, NAV } from "../../constants";
-import Pie from "../../components/Pie/Pie";
+import Chart from "../../components/Chart/Chart";
 import { useRouter } from "next/router";
 
-const StatisticPage = ({ data, renameLabels }) => {
+const StatisticPage = ({ data, title }) => {
   const router = useRouter();
   const { stat } = router.query;
 
   return (
     <MainLayout activeItem={stat}>
-      <Pie
-        data={Object.entries(data).map(([k, v]) => {
-          return {
-            value: v,
-            name: k == "null" ? "Не указано" : renameLabels ? NAMES[k] : k,
-          };
-        })}
-      />
+      <Chart data={data} title={title} />
     </MainLayout>
   );
 };
@@ -31,12 +24,19 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const data = await res.json();
+  const rawData = await res.json();
   // console.log(data);
+  console.log(rawData);
   const toBeRenamed = ["active", "funding"];
-  const renameLabels = toBeRenamed.includes(context.params.stat);
+  const data = Object.entries(rawData).map(([k, v]) => {
+    return {
+      value: v,
+      name: toBeRenamed.includes(context.params.stat) ? NAMES[k] : k,
+    };
+  });
+  const title = NAV[context.params.stat];
 
-  return { props: { data, renameLabels } };
+  return { props: { data, title } };
 }
 
 export default StatisticPage;

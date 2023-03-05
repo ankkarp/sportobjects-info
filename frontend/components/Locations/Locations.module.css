@@ -1,12 +1,11 @@
 .map{
     height: 100%;
-    width: 100%;
-    background-color: rgb(201, 218, 220);
-    padding: 10px;
+    background-color: rgb(236, 236, 236);
+    padding: 7px;
     border-radius: 15px;
     opacity: 0.1;
     margin: 1em;
-
+    margin-right: 2em;
 }
 
 .map.active{
