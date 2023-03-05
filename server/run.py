@@ -56,9 +56,9 @@ async def read_object(id: int):
 @app.get("/stats/timetable")
 async def get_sports():
     df = pd.read_sql(
-        text(f'''SELECT timetable FROM sportobjects'''), con).astype(str)
-    sports = np.hstack(df['kinds_of_sports'].str.split(', ').values)
-    return pd.Series(sports).value_counts().to_dict()
+        text(f'''SELECT start_date_of_construction_reconstruction
+             FROM sportobjects'''), con)
+    return df.str.replace(r'.+\.', '').value_counts().to_dict()
 
 
 @app.get("/locs")
@@ -74,25 +74,21 @@ async def get_locs():
 async def get_statistic(stat):
     if stat == 'funding':
         df = pd.read_sql(text(f'''SELECT funding_from_the_federal_budget,
-                    funding_from_the_federal_budget_of_which_mastered
                     funding_from_the_budget_of_the_subject_of_the_federation,
-                    funding_from_the_budget_of_the_subject_of_the_federation_of_whi,
                     funding_from_the_budget_of_the_municipality,
-                    funding_from_the_budget_of_the_municipality_of_which_mastered,
-                    funding_from_extrabudgetary_sources,
-                    funding_from_extrabudgetary_sources_of_which_mastered
+                    funding_from_extrabudgetary_sources
                     FROM sportobjects'''), con)
         return {col: df[col].sum(skipna=True) for col in df.columns}
     elif stat in pd.read_sql(text('SELECT * FROM sportobjects LIMIT 1'), con).columns:
         df = pd.read_sql(
-            text(f'''SELECT {stat} FROM sportobjects'''), con)
+            text(f'SELECT {stat} FROM sportobjects'), con).fillna("Не указано")
         data = df[stat].value_counts(dropna=False).to_dict()
         return data
     else:
         raise HTTPException(
             status_code=404,
             detail="Page not found",
-            headers={"X-Error": "There goes my error"},
+            headers={"X-Error": f"Endpoint {stat} doesn't exit"},
         )
 
 

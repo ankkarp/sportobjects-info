@@ -48,37 +48,11 @@ def init_db(df, table_name, pk):
     return sql_code
 
 
-# def build_mapping(mapping_json='data\mapping.json', table_name='column_mapping'):
-#     with engine.connect() as con:
-#         res = pd.read_sql(
-#             text(f"""SELECT datname FROM pg_catalog.pg_database
-#                     WHERE lower(datname) = lower('{table_name}');"""), con)
-#         if len(res.index) == 0:
-#             res = pd.read_sql(
-#                 text(f"""SELECT datname FROM pg_catalog.pg_database
-#                     WHERE lower(datname) = lower('{column_name}');"""), con)
-#             if len(res.index):
-#                 logging.warning(f'table {table_name} already exists!')
-#             else:
-#                 con.execute(text(f"""CREATE TABLE {table_name} (
-#                     column_name varchar(63) PRIMARY KEY;
-#                     orig_name varchar(255) NOT NULL;
-#                     );"""))
-#                 with open(mapping_json, 'r') as f:
-#                     mapping_dict = json.load(f)
-#                 for column_name, orig_name in tqdm(mapping_dict.items()):
-#                     con.execute(
-#                         text(f"INSERT INTO {table_name} VALUES({column_name}, {orig_name});"))
-#                 con.commit()
-#         else:
-#             logging.warning(f'table {table_name} already exists!')
-
-
 def build_db(csv_data, table_name, pk):
     with engine.connect() as con:
         res = con.execute(
-            text(f"""SELECT EXISTS (SELECT datname FROM pg_catalog.pg_database 
-                    WHERE lower(datname) = lower('{table_name}'));"""))
+            text(f"""SELECT datname FROM pg_catalog.pg_database 
+                    WHERE lower(datname) = lower('{table_name}');"""))
         if not res.fetchone():
             df = pd.read_csv(csv_data)
             df.columns = pd.Series(df.columns).str.replace(
