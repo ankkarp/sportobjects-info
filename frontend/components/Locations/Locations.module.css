@@ -4,9 +4,10 @@
     padding: 7px;
     border-radius: 15px;
     opacity: 0.1;
-    margin: 1em;
-    margin-right: 2em;
+    margin: 2em;
 }
+
+
 
 .map.active{
     opacity: 1;
